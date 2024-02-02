@@ -5,12 +5,14 @@ const Home = () => {
         <div className="HomeContainer">
             <div className="HomeInnerContainer">
                 <h2>Dashboard</h2>
+                <div className="ButtonContainer">
                 <Link to="/addexpense/">
                     <button type="button" class="homebtn btn btn-primary">Add an Expense</button>
                 </Link>
                 <Link to="/expenses/">
-                    <button type="button" class="homebtn btn btn-primary">Expenses</button>
+                    <button type="button" class="homebtn btn btn-primary">Expenses Report</button>
                 </Link>
+                </div>
             </div>
         </div>
     )

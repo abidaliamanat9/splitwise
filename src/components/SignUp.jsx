@@ -35,7 +35,7 @@ const SignUp = () => {
                 name:formData.name,
                 email:formData.email
             });
-            // navigate('/add/')
+            navigate('/')
         }
         catch{
             setError("Error occur during SignUp")

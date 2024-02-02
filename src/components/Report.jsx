@@ -1,20 +1,35 @@
 import { useState,useEffect } from "react"
-import { collection, getDocs} from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc} from "firebase/firestore";
 import { auth, db, storage } from '../utils/firebase'
 
 const Report =() => {
     const [expenses, setExpenses] = useState([])
-    useEffect(() => {
-        const fetchExpenses = async () => {
-            const expenseCollection = await collection(db,'expenses');
-            const expenseSnapshot = await getDocs(expenseCollection)
-            const expenseData = expenseSnapshot.docs.map(doc => doc.data())
-            setExpenses(expenseData)
-            
-        }
-    
+    const fetchExpenses = async () => {
+      const expenseCollection = await collection(db,'expenses');
+      const expenseSnapshot = await getDocs(expenseCollection)
+      const expenseData = expenseSnapshot.docs.map(doc => doc.data())
+      setExpenses(expenseData)
+      
+    }
+    useEffect(() => {    
         fetchExpenses();
-      }, []);
+      }, [expenses]);
+      const settleExpense = async (expenseId, contributorId) => {
+        const expenseRef = doc(db, 'expenses', expenseId);
+    
+        // Find the contributor in the contributors array
+        const updatedContributors = expenses
+          .find(expense => expense.id === expenseId)
+          .contributors.map(contributor =>
+            contributor.id === contributorId
+              ? { ...contributor, status: 'Done', paidAmount: contributor.orderAmount }
+              : contributor
+          );
+    
+        await updateDoc(expenseRef, { contributors: updatedContributors });
+        // Fetch expenses again after settling to update the state
+        // fetchExpenses();
+      };
       console.log(expenses)
       return (
         <div>
@@ -38,11 +53,8 @@ const Report =() => {
                         <td>${contributor.orderAmount}</td>
                         <td>${contributor.paidAmount}</td>
                         <td>{contributor.status}</td>
-                        <td>{((auth.currentUser.uid === contributor.id) && (contributor.status === 'debtor'))? (<button>Settle</button>):('')}</td>
+                        <td>{((auth.currentUser.uid === contributor.id) && (contributor.status === 'Debitor'))? (<button onClick={() => settleExpense(expense.id, contributor.id)}>Settle</button>):('')}</td>
                     </tr>
-                {/* <p>{contributor.name}</p>
-                <p>Total Owed: ${contributor.orderAmount - contributor.paidAmount}</p>
-                <p>Total Paid: ${contributor.paidAmount}</p> */}
                 </tbody>
             ))}
             </table>

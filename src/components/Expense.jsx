@@ -40,6 +40,16 @@ const Expense = () => {
 
   const handleAddExpense = async (e) => {
     e.preventDefault()
+    if (selectedUsers.length <= 1) {
+        setState({...state, error:"Please select at least 1 contributor."})
+        return;
+    }
+    const totalOrderAmount = selectedUsers.reduce((total, user) => total + parseFloat(user.orderAmount), 0);
+    const totalPaidAmount = selectedUsers.reduce((total, user) => total + parseFloat(user.paidAmount), 0);
+    if (totalOrderAmount !== totalPaidAmount) {
+        setState({...state, error:"Order amounts and paid amounts are not equal."})
+        return;
+    }
     let imageURL = '';
     try{
         if (image) {
@@ -61,11 +71,11 @@ const Expense = () => {
             const difference = contributor.paidAmount - contributor.orderAmount;
             let status = '';
             if (difference < 0) {
-                status = 'debtor';
+                status = 'Debitor';
             } else if (difference > 0) {
-                status = 'creditor';
+                status = 'Creditor';
             } else if (difference === 0) {
-                status = '';
+                status = 'Done';
             }
             return {
                 ...contributor,
