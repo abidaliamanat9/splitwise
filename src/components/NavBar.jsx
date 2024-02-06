@@ -6,7 +6,7 @@ import logo from '../assets/splitwiselogo.png';
 
 import { Logout } from "../helpers/helper";
 
-import '../styles/styles.css';
+import 'styles/styles.css';
 
 const NavBar =()=>{
     const navigate = useNavigate()

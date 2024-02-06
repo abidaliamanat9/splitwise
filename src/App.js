@@ -16,7 +16,6 @@ import {
 } from "./components/Index";
 
 const App = () => {
-  console.log(auth.currentUser);
   const [user, setUser] = useState(null);
 
   useEffect(() => {

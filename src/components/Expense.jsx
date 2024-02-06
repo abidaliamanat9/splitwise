@@ -4,38 +4,52 @@ import { useNavigate } from "react-router-dom";
 
 import { auth } from "../utils/firebase";
 
-import { handleUserSelectChange, fetchUsers, handleAddExpense } from "../helpers/helper";
+import {
+  handleUserSelectChange,
+  fetchUsers,
+  handleAddExpense,
+} from "../helpers/expense/expense";
 
-import "../styles/styles.css";
+import "styles/styles.css";
 
 const Expense = () => {
-    const navigate = useNavigate();
-    const loggedInUser = {
-        email: auth.currentUser.email,
-        id: auth.currentUser.uid,
-        name: auth.currentUser.displayName,
-        orderAmount: "",
-        paidAmount: "",
-    };
-    const [image, setImage] = useState();
-    const [selectedUsers, setSelectedUsers] = useState([loggedInUser]);
-    const [users, setUsers] = useState([]);
-    const [description,setDescription] = useState("");
-    const [totalAmount, setTotalAmount] = useState("")
-    const [date, setDate] = useState("")
-    const [error, setError] = useState("")
-    
-    useEffect(() => {
-        fetchUsers(setUsers);
-    }, []);
+  const navigate = useNavigate();
+  const loggedInUser = {
+    email: auth.currentUser.email,
+    id: auth.currentUser.uid,
+    name: auth.currentUser.displayName,
+    orderAmount: "",
+    paidAmount: "",
+  };
+  const [image, setImage] = useState();
+  const [selectedUsers, setSelectedUsers] = useState([loggedInUser]);
+  const [users, setUsers] = useState([]);
+  const [description, setDescription] = useState("");
+  const [totalAmount, setTotalAmount] = useState("");
+  const [date, setDate] = useState("");
+  const [error, setError] = useState("");
 
-
-
+  useEffect(() => {
+    fetchUsers(setUsers);
+  }, []);
 
   return (
     <div className="container mt-3">
       <h2 className="mb-4">Add Expense</h2>
-      <form onSubmit={(e)=>handleAddExpense(e,selectedUsers,image,description,date,totalAmount,setError,navigate)}>
+      <form
+        onSubmit={(e) =>
+          handleAddExpense(
+            e,
+            selectedUsers,
+            image,
+            description,
+            date,
+            totalAmount,
+            setError,
+            navigate
+          )
+        }
+      >
         <div className="form-group mt-3">
           <label htmlFor="description" className="form-label">
             Description
@@ -46,9 +60,7 @@ const Expense = () => {
             id="description"
             placeholder="Enter description here"
             value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
+            onChange={(e) => setDescription(e.target.value)}
             required
           />
         </div>
@@ -62,9 +74,7 @@ const Expense = () => {
             id="totalAmount"
             placeholder="Enter total amount here"
             value={totalAmount}
-            onChange={(e) =>
-              setTotalAmount(e.target.value)
-            }
+            onChange={(e) => setTotalAmount(e.target.value)}
             required
           />
         </div>
@@ -101,7 +111,7 @@ const Expense = () => {
           <select
             className="form-control"
             id="contributors"
-            onChange={(e)=>handleUserSelectChange(e,users,setSelectedUsers)}
+            onChange={(e) => handleUserSelectChange(e, users, setSelectedUsers)}
           >
             <option value="">Select Contributors</option>
             {users
