@@ -1,29 +1,20 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from "../utils/firebase"
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom";
-import '../styles/styles.css'
-const Login = () => {
+
+import { Link, useNavigate } from 'react-router-dom';
+
+import { handleSignIn } from '../helpers/helper';
+
+import '../styles/styles.css';
+
+const SignIn = () => {
+  const navigate= useNavigate()
   const initialdata={
     email:'',
     password:''
   }
   const [formdata,setFormdata] = useState(initialdata)
   const [error, setError] = useState('')
-  const navigate= useNavigate()
-
-  const handleSignIn = async(e) => {
-    e.preventDefault()
-    try{
-      await signInWithEmailAndPassword(auth,formdata.email,formdata.password)
-      console.log('user logged in successfuly')
-      navigate('/')
-    }
-    catch{
-      setError("Invalid Email or Password")
-    }
-  };
+  
   const handleInputChange = (e) => {
     const { name, value} = e.target;
     setFormdata((prevdata) => ({
@@ -39,7 +30,7 @@ const Login = () => {
             <div className="card custom-card">
                 <div className="card-body">
                     <h2 className="card-title">Sign In</h2>
-                    <form onSubmit={handleSignIn}>
+                    <form onSubmit={(e)=>handleSignIn(e,formdata,setError,navigate)}>
                         <div className="form-group mt-3">
                             <label htmlFor="email">Email:</label>
                             <input type="email"
@@ -74,4 +65,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;

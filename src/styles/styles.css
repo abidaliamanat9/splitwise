@@ -1,4 +1,4 @@
-.logoimg{
+.logoimg {
     height: 40px;
     width: 60px;
   }
@@ -21,7 +21,7 @@
   li {
     margin-right: 15px;
   }
-  li p{
+  li p {
     color: aliceblue;
     text-align: center;
     padding-top: 7px;
@@ -55,7 +55,7 @@
   }
 
 
-.container{
+.container {
     position: absolute;
     left: 50%;
     max-width: 500px;
@@ -63,22 +63,20 @@
     padding-top: 5%;
     padding-bottom: 5%;
 }
-h2{
+h2 {
     text-align: center;
 }
-.centerbutton{
+.centerbutton {
     text-align: center!important;
     margin-left: 35%!important;
 }
-.rightbutton{
+.rightbutton {
     margin-left: 2%!important;
 }
 
-.navbtn{
+.navbtn {
     margin-top: 5%;
     margin-bottom: 3%;
-}
-.homebtn{
 }
 
 .HomeContainer {
@@ -109,6 +107,6 @@ h2{
   justify-content: space-around;
   margin-top: 20px; 
 }
-.expensestable{
+.expensestable {
     padding-top: 5%;
 }

@@ -1,6 +1,8 @@
 import { useState,useEffect } from "react"
+
 import { collection, getDocs, doc, updateDoc} from "firebase/firestore";
-import { auth, db, storage } from '../utils/firebase'
+
+import { auth, db} from '../utils/firebase'
 
 const Report =() => {
     const [expenses, setExpenses] = useState([])

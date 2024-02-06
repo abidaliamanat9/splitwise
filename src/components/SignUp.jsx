@@ -1,12 +1,13 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
-import { collection, doc, setDoc } from "firebase/firestore"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { db, auth } from "../utils/firebase"
-import { Link } from "react-router-dom";
-import '../styles/styles.css'
+import { useState } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+
+import { handleSignUp } from "../helpers/helper";
+
+import '../styles/styles.css';
 
 const SignUp = () => {
+    const navigate = useNavigate()
     const initialForm = {
         name:'',
         email:'',
@@ -15,32 +16,8 @@ const SignUp = () => {
     }
     const [formData,setFormData] = useState(initialForm)
     const [error, setError] = useState('')
-    const navigate = useNavigate()
 
-    const handleSignUp = async(e) =>{
-        e.preventDefault();
 
-        if(formData.password !== formData.confirmPassword){
-            setError("Both passwords are not same")
-        }      
-        try{
-            const res = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-            const user = res.user;
-
-            await updateProfile(auth.currentUser,{
-                displayName:formData.name
-            })
-            await setDoc(doc(collection(db,'users'),user.uid),{
-                id:user.uid,
-                name:formData.name,
-                email:formData.email
-            });
-            navigate('/')
-        }
-        catch{
-            setError("Error occur during SignUp")
-        }
-    };
     const handleInputChange = (e) => {
         const { name, value} = e.target;
         setFormData((prevdata) => ({
@@ -55,7 +32,7 @@ const SignUp = () => {
                 <div className="card custom-card">
                     <div className="card-body">
                         <h2 className="card-title">Sign Up</h2>
-                        <form onSubmit={handleSignUp}>
+                        <form onSubmit={(e) => handleSignUp(e, formData, setError, navigate)}>
                             <div className="form-group mt-3">
                                 <label htmlFor="name">Name:</label>
                                 <input type="text"
