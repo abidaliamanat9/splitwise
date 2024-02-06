@@ -1,41 +1,67 @@
-import React, { Component } from "react";
-import logo from '../assets/splitwiselogo.png';
-import '../styles/App.css';
+import React from "react";
+import NavBar from "./NavBar";
+import Login from "./Login";
+import Home from "./Home";
+import SignUp from "./SignUp";
+import Report from "./Report";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Expense from "./Expense";
+import PrivateRoutes from "../routes/PrivateRoutes"
+import { auth } from "../utils/firebase"
+import { useState, useEffect } from "react";
+const App =() => {
+  console.log(auth.currentUser)
+  const [user, setUser] = useState(null);
 
-class App extends Component {
-  render() {
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
     return (
-      <>
-      <nav className="navbar navbar-expand-lg">
-        <div className="container">
-          <a className="navbar-brand" href="/">
-            <img className="logoimg" src={logo} alt="Splitwise" />
-            Splitwise
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarResponsive" // Corrected target ID
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarResponsive">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <a className="nav-link active" href="/">
-                  <button type="button" className="btn btn-primary">
-                    Log in
-                  </button>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      </>
-    );
+      <BrowserRouter>
+      <Routes>
+        {!user ? (
+          <Route path="/"  element={<NavBar />} />
+        ):(
+          <Route path="/"  element={
+          <>
+          <NavBar />
+          <Home />
+          </>
+          } />
+        )}
+        
+        <Route path="/signin/" element={
+          <>
+          <NavBar />
+          <Login />
+          </>} />
+        <Route path="/signup/" element={
+          <>
+          <NavBar />
+          <SignUp />
+          </>} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/addexpense/" element={
+            <>
+            <NavBar />
+            <Expense />
+            </>
+          } />
+          <Route path="/expenses/" element={
+            <>
+            <NavBar />
+            <Report />
+            </>} />
+        </Route>
+      </Routes>
+      </BrowserRouter>
+  );
   }
-}
 
 export default App;
