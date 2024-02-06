@@ -1,15 +1,16 @@
-import { Component } from "react";
-import logo from '../assets/splitwiselogo.png';
-import '../styles/styles.css';
 import { Link, useNavigate } from "react-router-dom";
+
 import { auth } from "../utils/firebase"
-import { signOut } from "firebase/auth";
+
+import logo from '../assets/splitwiselogo.png';
+
+import { Logout } from "../helpers/helper";
+
+import 'styles/styles.css';
+
 const NavBar =()=>{
     const navigate = useNavigate()
-    const Logout = async() => {
-        await signOut(auth)
-        navigate("/signin/")
-    }
+
         return(
         <nav>
             <div className="navbar-content">
@@ -38,7 +39,7 @@ const NavBar =()=>{
                 ):(
                     <>
                     <h3>{auth.currentUser.displayName}</h3>
-                    <button className="navbtn rightbutton btn btn-primary btn-lg" onClick={Logout}>LogOut</button>
+                    <button className="navbtn rightbutton btn btn-primary btn-lg" onClick={()=>Logout(navigate)}>LogOut</button>
                     </>
                 )
                 }
