@@ -6,8 +6,6 @@ import logo from "../assets/splitwiselogo.png";
 
 import { logout } from "../helpers/logout/logout";
 
-import { LinkElement } from "../utils/commons";
-
 import "../styles/styles.css";
 
 const NavBar = () => {
@@ -31,13 +29,24 @@ const NavBar = () => {
         <div className="navbar-buttons">
           {auth.currentUser === null ? (
             <>
-              <LinkElement tos={"/signin/"} text={"SignIn"} className={"btn"} />
-              <LinkElement tos={"/signup/"} text={"SignUp"} className={"btn"} />
+              <Link to="/signin/">
+                <button className="btn">
+                  SignIn
+                </button>
+              </Link>
+              <Link to="/signup/">
+                <button className="btn">
+                  SignUp
+                </button>
+              </Link>
             </>
           ) : (
             <>
               <p>{auth.currentUser.displayName}</p>
-              <button className="btn" onClick={() => logout(navigate)}>
+              <button
+                className="navbtn rightbutton btn btn-primary btn-lg"
+                onClick={() => logout(navigate)}
+              >
                 LogOut
               </button>
             </>

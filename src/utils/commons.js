@@ -29,11 +29,11 @@ const InputField = ({ label, type, name, placeholder, value, onChange }) => {
   );
 };
 
-const LinkElement= (tos, text,className)=>{
-    return (
-        <Link to={tos}>
-            <button type="button" className={className}>{text}</button>
-        </Link>
-    );
-}
-export { InputField, LinkElement };
+// const LinkElement= (tos, text,className)=>{
+//     return (
+//         <Link to={tos}>
+//             <button type="button" className={className}>{text}</button>
+//         </Link>
+//     );
+// }
+export { InputField };

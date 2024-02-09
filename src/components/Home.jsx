@@ -1,4 +1,4 @@
-import { LinkElement } from "../utils/commons";
+import { Link } from "react-router-dom";
 
 import "../styles/styles.css";
 
@@ -7,8 +7,12 @@ const Home = () => {
     <div className="container">
       <h2>Dashboard</h2>
       <div>
-        <LinkElement tos={"/addexpense/"} text={"Add an Expense"} />
-        <LinkElement tos={"/expenses/"} text={"Expenses Report"} />
+        <Link to="/addexpense/">
+          <button type="button">Add an Expense</button>
+        </Link>
+        <Link to="/expenses/">
+          <button type="button">Expenses Report</button>
+        </Link>
       </div>
     </div>
   );
