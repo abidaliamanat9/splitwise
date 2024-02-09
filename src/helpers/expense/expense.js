@@ -2,7 +2,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 import { collection, addDoc, getDocs, updateDoc } from "firebase/firestore";
 
-import { db, storage } from "../utils/firebase";
+import { db, storage } from "../../utils/firebase";
 
 const handleUserSelectChange = (e, users, setSelectedUsers) => {
   const userId = e.target.value;
@@ -22,6 +22,21 @@ const fetchUsers = async (setUsers) => {
   const userSnapshot = await getDocs(userCollection);
   const userData = userSnapshot.docs.map((doc) => doc.data());
   setUsers(userData);
+};
+
+const handleAmountChange = (
+  e,
+  selectedUsers,
+  setSelectedUsers,
+  currentUser,
+  amountType
+) => {
+  const updatedUsers = selectedUsers.map((user) =>
+    user.id === currentUser.id
+      ? { ...user, [amountType]: e.target.value }
+      : user
+  );
+  setSelectedUsers(updatedUsers);
 };
 
 const handleAddExpense = async (
@@ -91,4 +106,9 @@ const handleAddExpense = async (
     setError("Expenses not addded");
   }
 };
-export { handleUserSelectChange, fetchUsers, handleAddExpense };
+export {
+  handleUserSelectChange,
+  fetchUsers,
+  handleAmountChange,
+  handleAddExpense,
+};

@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom";
 
 import { auth } from "../utils/firebase";
 
+import { InputField } from "../utils/commons";
+
 import {
   handleUserSelectChange,
   fetchUsers,
   handleAddExpense,
 } from "../helpers/expense/expense";
 
-import "styles/styles.css";
+import { handleAmountChange } from "../helpers/expense/expense";
+
+import "../styles/styles.css";
 
 const Expense = () => {
   const navigate = useNavigate();
@@ -34,8 +38,8 @@ const Expense = () => {
   }, []);
 
   return (
-    <div className="container mt-3">
-      <h2 className="mb-4">Add Expense</h2>
+    <div className="container">
+      <h2>Add Expense</h2>
       <form
         onSubmit={(e) =>
           handleAddExpense(
@@ -50,67 +54,48 @@ const Expense = () => {
           )
         }
       >
-        <div className="form-group mt-3">
-          <label htmlFor="description" className="form-label">
-            Description
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="description"
-            placeholder="Enter description here"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group mt-3">
-          <label htmlFor="totalAmount" className="form-label">
-            Total Amount
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="totalAmount"
-            placeholder="Enter total amount here"
-            value={totalAmount}
-            onChange={(e) => setTotalAmount(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group mt-3">
-          <label htmlFor="date" className="form-label">
-            Date
-          </label>
-          <input
-            type="date"
-            className="form-control"
-            id="date"
-            placeholder="Enter Date here"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group mt-3">
-          <label htmlFor="image" className="form-label">
-            Image
-          </label>
-          <input
-            type="file"
-            className="form-control"
-            id="image"
-            placeholder="Upload Image here"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        </div>
-        <div className="form-group mt-3">
-          <label htmlFor="contributors" className="form-label">
-            Select Contributors
-          </label>
+        <InputField
+          label={"Description"}
+          type={"text"}
+          name={"description"}
+          placeholder={"Enter order description"}
+          value={description}
+          onChange={(e) => {
+            setDescription(e.target.value);
+          }}
+        />
+        <InputField
+          label={"Total Amount"}
+          type={"number"}
+          name={"totalamount"}
+          placeholder={"Enter order total amount"}
+          value={totalAmount}
+          onChange={(e) => {
+            setTotalAmount(e.target.value);
+          }}
+        />
+        <InputField
+          label={"Date"}
+          type={"date"}
+          name={"date"}
+          placeholder={"Enter order date"}
+          value={date}
+          onChange={(e) => {
+            setDate(e.target.value);
+          }}
+        />
+        <InputField
+          label={"Image"}
+          type={"file"}
+          name={"image"}
+          placeholder={"Enter order image"}
+          onChange={(e) => {
+            setImage(e.target.value[0]);
+          }}
+        />
+        <div>
+          <label>Select Contributors</label>
           <select
-            className="form-control"
-            id="contributors"
             onChange={(e) => handleUserSelectChange(e, users, setSelectedUsers)}
           >
             <option value="">Select Contributors</option>
@@ -131,61 +116,43 @@ const Expense = () => {
         </div>
         {selectedUsers.map((currentUser) => (
           <div key={currentUser.id} className="mb-4">
-            <h4>Enter {currentUser.name}'s Order Details</h4>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label htmlFor="orderAmount" className="fs-4">
-                    Order Amount:
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="orderAmount"
-                    value={currentUser.orderAmount}
-                    min="0"
-                    onChange={(e) => {
-                      const updatedUsers = selectedUsers.map((user) =>
-                        user.id === currentUser.id
-                          ? { ...user, orderAmount: e.target.value }
-                          : user
-                      );
-                      setSelectedUsers(updatedUsers);
-                    }}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label htmlFor="paidAmount" className="fs-4">
-                    Paid Amount:
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="paidAmount"
-                    value={currentUser.paidAmount}
-                    min="0"
-                    onChange={(e) => {
-                      const updatedUsers = selectedUsers.map((user) =>
-                        user.id === currentUser.id
-                          ? { ...user, paidAmount: e.target.value }
-                          : user
-                      );
-                      setSelectedUsers(updatedUsers);
-                    }}
-                    required
-                  />
-                </div>
-              </div>
-            </div>
+            <label>Enter {currentUser.name} Order Details</label>
+            <InputField
+              label={"Order Amount"}
+              type={"number"}
+              name={"orderAmount"}
+              placeholder={"Enter your order amount"}
+              value={currentUser.orderAmount}
+              onChange={(e) => {
+                handleAmountChange(
+                  e,
+                  selectedUsers,
+                  setSelectedUsers,
+                  currentUser,
+                  "paidAmount"
+                );
+              }}
+            />
+            <InputField
+              label={"Paid Amount"}
+              type={"number"}
+              name={"paidamount"}
+              placeholder={"Enter your order paid amount"}
+              value={currentUser.paidAmount}
+              onChange={(e) => {
+                handleAmountChange(
+                  e,
+                  selectedUsers,
+                  setSelectedUsers,
+                  currentUser,
+                  "paidAmount"
+                );
+              }}
+            />
           </div>
         ))}
-        {error && <div className="mt-3 text-danger">{error}</div>}
-        <button type="submit" className="btn btn-primary">
-          Submit Expenses
-        </button>
+        {error && <div className="error">{error}</div>}
+        <button type="submit">Submit Expenses</button>
       </form>
     </div>
   );

@@ -4,6 +4,8 @@ import { auth } from "../utils/firebase";
 
 import { fetchExpenses, settleExpense } from "../helpers/report/report";
 
+import "../styles/styles.css";
+
 const Report = () => {
   const [expenses, setExpenses] = useState([]);
 
@@ -14,15 +16,15 @@ const Report = () => {
     <div>
       {expenses.map((expense) => (
         <div key={expense.id} className="expensestable">
-          <h1>Expense Description: {expense.description}</h1>
-          <table class="table">
+          <h3>{expense.description}</h3>
+          <table className="table">
             <thead>
               <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Total Order</th>
-                <th scope="col">Total Paid</th>
-                <th scope="col">Status</th>
-                {/* <th></th> */}
+                <th>Name</th>
+                <th>Total Order</th>
+                <th>Total Paid</th>
+                <th>Status</th>
+                <th>Settlements </th>
               </tr>
             </thead>
             {expense.contributors.map((contributor) => (
@@ -36,6 +38,7 @@ const Report = () => {
                     {auth.currentUser.uid === contributor.id &&
                     contributor.status === "Debitor" ? (
                       <button
+                        className="btn"
                         onClick={() =>
                           settleExpense(expenses, expense.id, contributor.id)
                         }

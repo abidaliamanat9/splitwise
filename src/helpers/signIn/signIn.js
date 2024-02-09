@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-import { auth } from "../utils/firebase";
+import { auth } from "../../utils/firebase";
 
 const handleSignIn = async (e, formdata, setError, navigate) => {
   e.preventDefault();

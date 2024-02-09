@@ -4,6 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { handleSignUp } from "../helpers/signUp/signUp";
 
+import { InputField } from "../utils/commons";
+
+import { handleInputChange } from "../helpers/share";
+
 import "../styles/styles.css";
 
 const SignUp = () => {
@@ -16,87 +20,57 @@ const SignUp = () => {
   };
   const [formData, setFormData] = useState(initialForm);
   const [error, setError] = useState("");
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevdata) => ({
-      ...prevdata,
-      [name]: value,
-    }));
-  };
   return (
     <>
-      <div className="container mt-5">
-        <div className="row justify-content-center cus-padding">
-          <div className="card custom-card">
-            <div className="card-body">
-              <h2 className="card-title">Sign Up</h2>
-              <form
-                onSubmit={(e) => handleSignUp(e, formData, setError, navigate)}
-              >
-                <div className="form-group mt-3">
-                  <label htmlFor="name">Name:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    name="name"
-                    placeholder="Enter name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  ></input>
-                </div>
-                <div className="form-group mt-3">
-                  <label htmlFor="email">Email:</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="Enter email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  ></input>
-                </div>
-                <div className="form-group mt-3">
-                  <label htmlFor="password">Password:</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="Enter password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    required
-                  ></input>
-                </div>
-                <div className="form-group mt-3">
-                  <label htmlFor="confirmPassword">Confirm Password:</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Enter password again"
-                    value={formData.confirmPassword}
-                    onChange={handleInputChange}
-                    required
-                  ></input>
-                </div>
-                <button className="centerbutton btn btn-primary btn-block btn-lg mt-3">
-                  Sign Up
-                </button>
-              </form>
-              {error && <div className="mt-3 text-danger">{error}</div>}
-              <p className="mt-3">
-                Already have an account?<Link to="/signin/">Sign In</Link> here
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="container">
+        <h2>Sign Up</h2>
+        <form onSubmit={(e) => handleSignUp(e, formData, setError, navigate)}>
+          <InputField
+            label={"Name"}
+            type={"text"}
+            name={"name"}
+            placeholder={"Enter your name"}
+            value={formData.name}
+            onChange={(e) => {
+              handleInputChange(e, setFormData);
+            }}
+          />
+          <InputField
+            label={"Email"}
+            type={"email"}
+            name={"email"}
+            placeholder={"Enter your email"}
+            value={formData.email}
+            onChange={(e) => {
+              handleInputChange(e, setFormData);
+            }}
+          />
+          <InputField
+            label={"Password"}
+            type={"password"}
+            name={"password"}
+            placeholder={"Enter password"}
+            value={formData.password}
+            onChange={(e) => {
+              handleInputChange(e, setFormData);
+            }}
+          />
+          <InputField
+            label={"Confirm Password"}
+            type={"password"}
+            name={"confirmpassword"}
+            placeholder={"Enter confirm password"}
+            value={formData.confirmPassword}
+            onChange={(e) => {
+              handleInputChange(e, setFormData);
+            }}
+          />
+          <button type="submit">Sign Up</button>
+        </form>
+        {error && <div className="error">{error}</div>}
+        <p>
+          Already have an account?<Link to="/signin/">Sign In</Link> here
+        </p>
       </div>
     </>
   );

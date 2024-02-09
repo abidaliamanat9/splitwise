@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet, Navigate } from "react-router-dom";
 
-import { auth } from '../utils/firebase';
+import { auth } from "../utils/firebase";
 
 const PrivateRoutes = () => {
   const [user, setUser] = useState(null);
@@ -25,4 +25,3 @@ const PrivateRoutes = () => {
 };
 
 export default PrivateRoutes;
-

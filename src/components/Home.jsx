@@ -1,22 +1,16 @@
-import { Link } from "react-router-dom";
+import { LinkElement } from "../utils/commons";
 
-import "../styles/styles.css"
+import "../styles/styles.css";
 
 const Home = () => {
-    return(
-        <div className="HomeContainer">
-            <div className="HomeInnerContainer">
-                <h2>Dashboard</h2>
-                <div className="ButtonContainer">
-                <Link to="/addexpense/">
-                    <button type="button" class="homebtn btn btn-primary">Add an Expense</button>
-                </Link>
-                <Link to="/expenses/">
-                    <button type="button" class="homebtn btn btn-primary">Expenses Report</button>
-                </Link>
-                </div>
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className="container">
+      <h2>Dashboard</h2>
+      <div>
+        <LinkElement tos={"/addexpense/"} text={"Add an Expense"} />
+        <LinkElement tos={"/expenses/"} text={"Expenses Report"} />
+      </div>
+    </div>
+  );
+};
 export default Home;

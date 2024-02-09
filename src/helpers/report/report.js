@@ -1,11 +1,17 @@
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 
-import { db } from "../utils/firebase";
+import { auth, db } from "../../utils/firebase";
 
 const fetchExpenses = async (setExpenses) => {
   const expenseCollection = await collection(db, "expenses");
   const expenseSnapshot = await getDocs(expenseCollection);
-  const expenseData = expenseSnapshot.docs.map((doc) => doc.data());
+  const expenseData = expenseSnapshot.docs
+    .map((doc) => doc.data())
+    .filter((expense) =>
+      expense.contributors.some(
+        (contributor) => contributor.id === auth.currentUser.uid
+      )
+    );
   setExpenses(expenseData);
 };
 
