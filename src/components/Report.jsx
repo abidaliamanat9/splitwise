@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 import { auth } from "../utils/firebase";
-
 import { fetchExpenses, settleExpense } from "../helpers/report/report";
 
 import "../styles/styles.css";

@@ -1,5 +1,4 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-
 import { collection, addDoc, getDocs, updateDoc } from "firebase/firestore";
 
 import { db, storage } from "../../utils/firebase";
