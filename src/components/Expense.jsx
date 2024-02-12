@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../utils/firebase";
-
 import { InputField } from "../utils/commons";
-
 import {
   handleUserSelectChange,
   fetchUsers,
   handleAddExpense,
 } from "../helpers/expense/expense";
-
-import { handleAmountChange } from "../helpers/expense/expense";
 
 import "../styles/styles.css";
 
@@ -120,17 +115,16 @@ const Expense = () => {
             <InputField
               label={"Order Amount"}
               type={"number"}
-              name={"orderAmount"}
+              name={"orderamount"}
               placeholder={"Enter your order amount"}
               value={currentUser.orderAmount}
               onChange={(e) => {
-                handleAmountChange(
-                  e,
-                  selectedUsers,
-                  setSelectedUsers,
-                  currentUser,
-                  "paidAmount"
+                const updatedUsers = selectedUsers.map((user) =>
+                  user.id === currentUser.id
+                    ? { ...user, orderAmount: e.target.value }
+                    : user
                 );
+                setSelectedUsers(updatedUsers);
               }}
             />
             <InputField
@@ -140,18 +134,17 @@ const Expense = () => {
               placeholder={"Enter your order paid amount"}
               value={currentUser.paidAmount}
               onChange={(e) => {
-                handleAmountChange(
-                  e,
-                  selectedUsers,
-                  setSelectedUsers,
-                  currentUser,
-                  "paidAmount"
+                const updatedUsers = selectedUsers.map((user) =>
+                  user.id === currentUser.id
+                    ? { ...user, paidAmount: e.target.value }
+                    : user
                 );
+                setSelectedUsers(updatedUsers);
               }}
             />
           </div>
         ))}
-        {error && <div className="error">{error}</div>}
+        {error && <div className="mt-3 text-danger">{error}</div>}
         <button type="submit">Submit Expenses</button>
       </form>
     </div>

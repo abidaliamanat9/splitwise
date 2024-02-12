@@ -1,11 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { auth } from "../utils/firebase";
-
-import logo from "../assets/splitwiselogo.png";
-
 import { logout } from "../helpers/logout/logout";
 
+import logo from "../assets/splitwiselogo.png";
 import "../styles/styles.css";
 
 const NavBar = () => {
@@ -30,21 +28,17 @@ const NavBar = () => {
           {auth.currentUser === null ? (
             <>
               <Link to="/signin/">
-                <button className="btn">
-                  SignIn
-                </button>
+                <button className="btn">SignIn</button>
               </Link>
               <Link to="/signup/">
-                <button className="btn">
-                  SignUp
-                </button>
+                <button className="btn">SignUp</button>
               </Link>
             </>
           ) : (
             <>
               <p>{auth.currentUser.displayName}</p>
               <button
-                className="navbtn rightbutton btn btn-primary btn-lg"
+                className="btn"
                 onClick={() => logout(navigate)}
               >
                 LogOut
